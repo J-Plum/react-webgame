@@ -1,0 +1,77 @@
+<html>
+
+<head>
+</head>
+
+<body>
+   <meta charset="UTF-8">
+   <title>구구단</title>
+   <div id="root"></div>
+   <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+   <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+   <script type="text/babel">
+      'use strict';
+
+      class GuGuDan extends React.Component {
+         state = {
+            num1: Math.ceil(Math.random() * 9),
+            num2: Math.ceil(Math.random() * 9),
+            value: '',
+            result: '',
+         }
+         onSubmit = (e) => {
+            e.preventDefault();
+            if (parseInt(this.state.value) === this.state.num1 * this.state.num2) {
+               this.setState((e) => {
+                  return {
+                     result: `${e.value} 정답!`,
+                     num1: Math.ceil(Math.random() * 9),
+                     num2: Math.ceil(Math.random() * 9),
+                     value: '',
+                  }
+               })
+               this.input.focus();
+            } else {
+               this.setState((e) => {
+                  return {
+                     result: '땡',
+                     value: '',
+                  }
+               })
+               this.input.focus();
+            }
+         }
+
+         onChange = (e) => this.setState({
+            value: e.target.value
+         });
+
+         input;
+
+         render() {
+            console.log('랜더링');
+            return (
+               <React.Fragment>
+                  <div>{this.state.num1} 곱하기 {this.state.num2}는</div>
+                  <form onSubmit={this.onSubmit}>
+                     <input ref={(c) => { this.input = c; }} type="number" value={this.state.value} onChange={this.onChange} />
+                     <button>입력 !</button>
+                  </form>
+                  <div>{this.state.result}</div>
+               </React.Fragment>
+            );
+         }
+
+      }
+   </script>
+   <script type="text/babel">
+      ReactDOM.createRoot(document.querySelector('#root')).render(
+         <React.Fragment>
+            <GuGuDan />
+         </React.Fragment>
+      )
+   </script>
+</body>
+
+</html>

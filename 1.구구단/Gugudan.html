@@ -1,0 +1,39 @@
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>구구단</title>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script>
+        'use strict';
+        class LikeButton extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = { liked: false };
+            }
+            render() {
+                if (this.state.liked) {
+                    return 'you like this.';
+                }
+                return React.createElement('button', { onClick: () => this.setState({ liked: true }) }, 'like');
+            }
+
+
+
+
+        }
+
+        addEventListener('click', this.setState({ liked: true }));
+        addEventListener('click', () => this.setState({ liked: true }));
+    </script>
+    <script>
+        ReactDOM.render(React.createElement(LikeButton), document.querySelector('#root'));
+    </script>
+</body>
+
+</html>
