@@ -9,30 +9,51 @@
     <div id="root"></div>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    <script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <script type="text/babel">
         'use strict';
-        class LikeButton extends React.Component {
-            constructor(props) {
-                super(props);
-                this.state = { liked: false };
-            }
-            render() {
-                if (this.state.liked) {
-                    return 'you like this.';
+        const GuGuDan = () => {
+            const [first, setFirst] = React.useState(Math.ceil(Math.random() * 9));
+            const [second, setSecond] = React.useState(Math.ceil(Math.random() * 9));
+            const [value, setValue] = React.useState('');
+            const [result, setResult] = React.useState('');
+            const inputEl = React.useRef(null);
+
+            const onSubmitForm = (e) => {
+                e.preventDefault();
+                if (parseInt(value) === first * second) {
+                    setResult('정답');
+                    setFirst(Math.ceil(Math.random() * 9));
+                    setSecond(Math.ceil(Math.random() * 9));
+                    setValue('');
+                    inputEl.current.focus();
+                } else {
+                    setResult('땡');
+                    setValue('');
+                    inputEl.current.focus();
                 }
-                return React.createElement('button', { onClick: () => this.setState({ liked: true }) }, 'like');
-            }
+            };
+            return (
+                <React.Fragment>
+                    <div>{first} 곱하기 {second}는?</div>
+                    <form onSubmit={onSubmitForm}>
+                        <input
+                            ref={inputEl}
+                            type="number"
+                            value={value}
+                            onChange={(e) => setValue(e.target.value)}
+                        />
+                        <button>입력!</button>
+                    </form>
+                    <div id="result">{result}</div>
+                </React.Fragment>
+            );
+        };
 
-
-
-
-        }
-
-        addEventListener('click', this.setState({ liked: true }));
-        addEventListener('click', () => this.setState({ liked: true }));
     </script>
-    <script>
-        ReactDOM.render(React.createElement(LikeButton), document.querySelector('#root'));
+    <script type="text/babel">
+        ReactDOM.createRoot(document.querySelector('#root')).render(<GuGuDan />);
     </script>
 </body>
 
