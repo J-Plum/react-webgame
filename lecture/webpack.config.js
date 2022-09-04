@@ -1,4 +1,5 @@
 const path = require("path");
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
 
 module.exports = {
    name: "wordrelay-setting",
@@ -18,15 +19,36 @@ module.exports = {
             test: /\.jsx?/, //js파일과 jsx파일을 이 룰을 적용하겠다는 의미.
             loader: "babel-loader", // babel-loader를 적용해 문법호환이 가능하게 만들기위함
             options: {
-               presets: ["@babel/preset-env", "@babel/preset-react"],
-               plugins: ["@babel/plugin-proposal-class-properties"],
+               presets: [
+                  [
+                     "@babel/preset-env",
+                     {
+                        targets: {
+                           browsers: ["> 0.2% in KR"],
+                        },
+                        debug: true,
+                     },
+                  ],
+                  "@babel/preset-react",
+               ],
+               plugins: ["@babel/plugin-proposal-class-properties",
+                  'react-refresh/babel'],
             }, //바벨의 옵션
          },
       ],
    }, //entry 의 파일을 읽고 적용할 module
 
+   plugins: [
+      new ReactRefreshWebpackPlugin(),
+   ],
    output: {
-      path: path.join(__dirname, "dist"),
-      filename: "app.js",
-   }, // 출력
+      path: path.join(__dirname, 'dist'),
+      filename: '[name].js',
+      publicPath: '/dist',
+   },
+   devServer: {
+      devMiddleware: { publicPath: '/dist' },
+      static: { directory: path.resolve(__dirname) },
+      hot: true
+   }
 };
